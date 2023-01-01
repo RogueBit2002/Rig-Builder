@@ -1,0 +1,12 @@
+{
+  "name": "me.laurens.rig-builder",
+  "displayName": "Rig Builder",
+  "version": "0.1.0",
+  "description": "Tool for creating modular  rigs.",
+  "author": {
+    "name": "Laurens Kruis",
+    "email": "laurens@kruis.com",
+    "url": "http://www.laurens.me"
+  },
+  "type": "library"
+}
