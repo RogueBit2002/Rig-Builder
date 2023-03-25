@@ -10,9 +10,7 @@ namespace LaurensKruis.RigBuilder
     public abstract class RigModule : MonoBehaviour
     {
         private ModularRig rig;
-        public ModularRig Rig => Application.isPlaying ? rig : GetRig();
-
-        protected virtual void Awake() => rig = GetRig();
+        public ModularRig Rig => Application.isPlaying ? rig == null ? rig = GetRig() : rig : GetRig(); //Some spicy code
 
         protected virtual void OnTransformParentChanged() => rig = GetRig();
 

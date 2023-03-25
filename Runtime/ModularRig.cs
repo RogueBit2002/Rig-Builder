@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Experimental.AI;
 
 namespace LaurensKruis.RigBuilder
 {
@@ -19,7 +18,7 @@ namespace LaurensKruis.RigBuilder
         private Context activeContext;
 
         
-        private IEnumerable<RigModule> modules = new RigModule[0];
+        private IEnumerable<RigModule> modules;
 
 
         public IEnumerable<RigModule> Modules => Application.isPlaying ? modules : GetChildModules();
@@ -37,10 +36,13 @@ namespace LaurensKruis.RigBuilder
         {
             IEnumerable<RigModule> currentModules = GetChildModules();
 
+            /*
             //Nothing changed, except maybe module order
             if (currentModules.All(m => modules.Contains(m)) && currentModules.Count() == modules.Count())
                 return;
-
+            
+            * Even if no modules were created or removed, we should still recreate the context
+            */
             modules = currentModules;
 
             //Don't recreate the context when were in the editor
@@ -50,7 +52,7 @@ namespace LaurensKruis.RigBuilder
             activeContext = new Context();
 
             foreach (RigModule module in modules)
-                module.SendMessage("OnContextChange", activeContext);
+                module.SendMessage("OnContextChange", activeContext, SendMessageOptions.DontRequireReceiver);
         }
 
         //Because OnTransformChildrenChanged doesn't get called on grandchildren, we can only work with modules that are direct children
